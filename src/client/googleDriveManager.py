@@ -53,21 +53,21 @@ def work_in_free_time(window_length=5, interval=3, threshold=0.3):
 def check_google_drive_status(path):
     return os.access(path, os.W_OK)
 
-def self_recover(path, rlone_name):
-    command_unmount = (['fusermount -u %s' % path])
-    command_mount = (['rclone mount %s: %s -v --max-read-ahead 2000m --allow-non-empty' % (rlone_name, path)])
-    result = subprocess.Popen(command_unmount, shell=True)
-    result.communicate()
-    result = subprocess.Popen(command_mount, shell=True)
-    result.communicate()
-
-def self_recover_backend(gdrive_local,gdrive_rclone, p):
-    p.terminate()
-    print("rlone restarting...")
-    p = Process(target=self_recover, args=[gdrive_local, gdrive_rclone], name="manager")
-    p.start()
-    print("rclone restated.")
-    return p
+# def self_recover(path, rlone_name):
+#     command_unmount = (['fusermount -u %s' % path])
+#     command_mount = (['rclone mount %s: %s -v --max-read-ahead 2000m --allow-non-empty' % (rlone_name, path)])
+#     result = subprocess.Popen(command_unmount, shell=True)
+#     result.communicate()
+#     result = subprocess.Popen(command_mount, shell=True)
+#     result.communicate()
+#
+# def self_recover_backend(gdrive_local,gdrive_rclone, p):
+#     p.terminate()
+#     print("rlone restarting...")
+#     p = Process(target=self_recover, args=[gdrive_local, gdrive_rclone], name="manager")
+#     p.start()
+#     print("rclone restated.")
+#     return p
 
 def check_safe_file(loacl_file_path):
     baseName = os.path.basename(loacl_file_path)
@@ -75,7 +75,7 @@ def check_safe_file(loacl_file_path):
     created_time = os.path.getctime(loacl_file_path)
     modified_time = os.path.getmtime(loacl_file_path)
     if len(os.listdir(rootdir)) == 1:
-        current_time = time.time() - 3600
+        current_time = time.time() - 300
         if current_time < created_time or current_time < modified_time:
             return False
         else:
@@ -101,30 +101,30 @@ def check_safe_file(loacl_file_path):
 
 
 
-def googleDriveManager(interval=20, min_interval=10, cage_id=85136, mice_n=4, gdrive_local="/mnt/googleTeamDrive/", gdrive_rclone='silasi_team_drive'):
-    gdrive = os.path.join(gdrive_local, "HomeCages/")
-    p = Process(target=self_recover, args=[gdrive_local, gdrive_rclone])
-    p.start()
-    status = check_google_drive_status(gdrive)
-    if not status:
-        p = self_recover_backend(gdrive_local, gdrive_rclone, p)
-    gdrive_rootDir = os.path.join(gdrive_local, "HomeCages/", "cage_"+str(cage_id))
+def googleDriveManager(interval=20, min_interval=10, cage_id=1, mice_n=4, gdrive_local="/mnt/googleTeamDrive/", gdrive_rclone='silasi_team_drive'):
+    # gdrive = os.path.join(gdrive_local, "HomeCages/")
+    # p = Process(target=self_recover, args=[gdrive_local, gdrive_rclone])
+    # p.start()
+    gdrive_rootDir = os.path.join(gdrive_local, "homecage_%d_sync" % cage_id)
+    status = check_google_drive_status(gdrive_local)
+    # if not status:
+    #     p = self_recover_backend(gdrive_local, gdrive_rclone, p)
+
     gdrive_profilesDir = os.path.join(gdrive_rootDir, 'AnimalProfiles')
-    check_dir_list = [gdrive, gdrive_rootDir, gdrive_profilesDir]
+    check_dir_list = [gdrive_rootDir, gdrive_profilesDir]
     for i in range(1, mice_n + 1):
         check_dir_list.append(os.path.join(gdrive_profilesDir, "MOUSE" + str(i)))
         check_dir_list.append(os.path.join(gdrive_profilesDir, "MOUSE" + str(i), "Videos"))
-        check_dir_list.append(os.path.join(gdrive_profilesDir, "MOUSE" + str(i), "Logs"))
-        check_dir_list.append(os.path.join(gdrive_profilesDir, "MOUSE" + str(i), "Analyses"))
-        check_dir_list.append(os.path.join(gdrive_profilesDir, "MOUSE" + str(i), "Temp"))
 
     for dir_item in check_dir_list:
         if not os.path.exists(dir_item):
             try:
                 os.mkdir(dir_item)
             except:
-                p = self_recover_backend(gdrive_local, gdrive_rclone, p)
-    local_profileDir = "../../AnimalProfiles/"
+                # p = self_recover_backend(gdrive_local, gdrive_rclone, p)
+                raise (IOError, "Failed at making directories.")
+
+    local_profileDir = ".." + os.path.sep + ".." + os.path.sep + "AnimalProfiles"
 
     while True:
         try:
@@ -151,7 +151,10 @@ def googleDriveManager(interval=20, min_interval=10, cage_id=85136, mice_n=4, gd
                     upload_success = False
                     retry_count = 0
                     origin_dir = copy(item)
-                    basename = item.replace('../../', '')
+                    # basename = item.replace('../../', '')
+
+                    basename = item.replace(".." + os.path.sep + ".." + os.path.sep, '')
+
                     target_dir = os.path.join(gdrive_rootDir, basename)
 
                     while not upload_success:
@@ -173,11 +176,11 @@ def googleDriveManager(interval=20, min_interval=10, cage_id=85136, mice_n=4, gd
                                 upload_success = True
                                 print("File uploaded as: %s successfully!" % target_dir)
                                 if origin_dir.endswith('.avi'):
-                                    os.remove(origin_dir)
+                                    # os.remove(origin_dir)
                                     print("Original file:%s deleted." % origin_dir)
         except:
-            p = self_recover_backend(gdrive_local, gdrive_rclone, p)
+            raise (IOError, "Failed at making directories.")
         sleep(interval)
 
 if __name__ == '__main__':
-    googleDriveManager(300, 5, 85136, 4)
+    googleDriveManager(300, 5, 3, 5)

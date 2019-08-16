@@ -300,7 +300,7 @@ class SessionController(object):
             p = Popen(["python", "driver_for_a_better_camera.py", "--c", str(self.camera_index), "--p", tempPath], stdin=PIPE, stdout=PIPE)
         else:
             p = Popen(["python", "driver_for_a_better_camera.py", "--c", str(self.camera_index), "--p", tempPath], stdin=PIPE, stdout=PIPE)
-        # Tell server to move stepper to appropriate position for current profile
+        # Tell 5server to move stepper to appropriate position for current profile
         self.arduino_client.serialInterface.write(b'3')
 
         stepperMsg1 = scale_stepper_dist(profile.difficulty_dist_mm1)

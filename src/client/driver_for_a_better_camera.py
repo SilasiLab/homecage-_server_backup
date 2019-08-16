@@ -136,6 +136,7 @@ class Recoder():
     def recording(self):
         self.FPS = self.FPS.start()
         time_str = str(time.time())
+        detect_time_start = datetime.datetime.now()
         while True:
             time_iter_start = datetime.datetime.now()
             if self.stopped:
@@ -143,9 +144,16 @@ class Recoder():
             frame = self.vs.read()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             self.writer.write(gray)
+            if (datetime.datetime.now() - detect_time_start).seconds >= 5:
+                detect_time_start = datetime.datetime.now()
+                print(str(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")))
+                cv2.imwrite("detection_frame.jpg", gray[100:620, 200:700])
             self.FPS.update()
 
             if self.show:
+                pt1 = (200, 100)
+                pt2 = (700, 620)
+                cv2.rectangle(gray, pt1, pt2, 255, 5, 8)
                 cv2.imshow(time_str, gray)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     cv2.destroyAllWindows()
@@ -204,18 +212,16 @@ def record_main(camera_src, video_path, show=False):
     r.stop()
 
 if __name__ == '__main__':
-    DEBUG = False
+    DEBUG = True
 
     if not DEBUG:
         parser = argparse.ArgumentParser()
         parser.add_argument('--c', help='an integer for the camer index', dest='camera_index')
         parser.add_argument('--p', help='a string', dest='video_path')
-
         args = parser.parse_args()
         camera_index = args.camera_index
         video_path = args.video_path
-
-        record_main(int(camera_index), video_path, show=False)
+        record_main(int(camera_index), video_path, show=True)
 
     else:
         record_main(0, '1.avi', show=True)

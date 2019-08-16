@@ -5,11 +5,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AnimalProfiles/TEST_RIGHT/Logs/TEST_RIGHT_session_history.csv" beforeDir="false" afterPath="$PROJECT_DIR$/AnimalProfiles/TEST_RIGHT/Logs/TEST_RIGHT_session_history.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AnimalProfiles/TEST_RIGHT/TEST_RIGHT_save.txt" beforeDir="false" afterPath="$PROJECT_DIR$/AnimalProfiles/TEST_RIGHT/TEST_RIGHT_save.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/arduino/homecage_server/homecage_server.ino" beforeDir="false" afterPath="$PROJECT_DIR$/src/arduino/homecage_server/homecage_server.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/1.avi" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/1.avi" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/debug_log/loadAnimalProfiles.logs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/client/debug_log/main.logs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client/1.avi" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/client/driver_for_a_better_camera.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/driver_for_a_better_camera.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client/googleDriveManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/googleDriveManager.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/client/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/client/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -122,8 +120,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.main" />
         <item itemvalue="Python.driver_for_a_better_camera" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python.googleDriveManager" />
       </list>
     </recent_temporary>
@@ -153,5 +151,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/src/client/googleDriveManager.py</url>
+          <line>159</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
