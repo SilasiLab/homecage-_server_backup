@@ -56,7 +56,7 @@ class WebcamVideoStream:
         # If not go next line
         else:
             self.stream = cv2.VideoCapture(src)
-            ret4 = self.stream.set(cv2.CAP_PROP_EXPOSURE, 0.0001)
+            ret4 = self.stream.set(cv2.CAP_PROP_EXPOSURE, 0.00001)
         print(self.stream.isOpened())
         self.width = width
         self.height = height
