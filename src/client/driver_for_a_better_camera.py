@@ -144,16 +144,13 @@ class Recoder():
             frame = self.vs.read()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             self.writer.write(gray)
-            if (datetime.datetime.now() - detect_time_start).seconds >= 5:
+            if (datetime.datetime.now() - detect_time_start).seconds >= 3:
                 detect_time_start = datetime.datetime.now()
                 print(str(datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")))
-                cv2.imwrite("detection_frame.jpg", gray[100:620, 200:700])
+                cv2.imwrite("detection_frame.jpg", gray[160: 560, 80: 300])
             self.FPS.update()
 
             if self.show:
-                pt1 = (200, 100)
-                pt2 = (700, 620)
-                cv2.rectangle(gray, pt1, pt2, 255, 5, 8)
                 cv2.imshow(time_str, gray)
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     cv2.destroyAllWindows()

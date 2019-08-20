@@ -16,6 +16,7 @@ import datetime
 from driver_for_a_better_camera import *
 from tkinter.simpledialog import askinteger, askstring
 from tkinter import Tk
+import cv2
 # import pysnooper
 
 systemCheck.check_directory_structure()
@@ -316,9 +317,15 @@ class SessionController(object):
         trial_count = 1
         now = time.time()
 
+        FLAG_pellet = False
+        path_detection_frame = 'detection_frame.jpg'
         while True:
 
-            if (time.time() - now > 7):
+            if os.path.exists(path_detection_frame):
+                FLAG_pellet = detect(cv2.imread(path_detection_frame))
+                os.remove(path_detection_frame)
+
+            if (not FLAG_pellet) and (time.time() - now > 7):
                 if profile.dominant_hand == "LEFT":
                     self.arduino_client.serialInterface.write(b'1')
                 elif profile.dominant_hand == "RIGHT":
@@ -357,6 +364,20 @@ def scale_stepper_dist(distance):
     else:
         return str(hex(distance)).replace('0x', '')
 
+def detect(img):
+    assert img.shape == (400, 220, 3), "Shape of detection frame does not match prefix setting."
+
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+    ret,thresh = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY)
+    im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    if len(contours) > 0:
+        for cnt in contours:
+            x, y, w, h = cv2.boundingRect(cnt)
+            min_wh = float(min(w, h))
+            max_wh = float(max(w, h))
+            if min_wh > max(max_wh * 0.7, 20) and (x + w) < img.shape[1] - 5:
+                return True
+    return False
 
 # Just a wrapper to launch the configuration GUI in its own process. 
 def launch_gui():
