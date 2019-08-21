@@ -218,7 +218,7 @@ class AnimalProfile(object):
 class SessionController(object):
     """
 		A controller for all sessions that occur within the system. A "session" is defined as everything that happens while an animal is in the
-                experiment tube. A session is started when an RFID is read and authorized. The session will continue until the IR beam is reconnected and 
+                experiment tube. A session is started when an RFID is read and authorized. The session will continue until the IR beam is reconnected and
                 the Arduino server sends a signal to indicate this. Sessions record several pieces of information during the session, including video, timestamps, motor actions, etc.
                 The sessions is also responsible for sending requests to the Arduino for motor actions and for spawning a video recording process.
                 A SessionController has the following properties:
@@ -242,7 +242,7 @@ class SessionController(object):
 
     # This function searches the SessionController's profile_list for a profile whose ID
     # matches the supplied RFID. If a profile is found, it is returned. If no profile is found,
-    # -1 is returned. (Not very pythonic but I have C-like habits.) 
+    # -1 is returned. (Not very pythonic but I have C-like habits.)
     def searchForProfile(self, RFID):
 
         for profile in self.profile_list:
@@ -270,10 +270,10 @@ class SessionController(object):
     # The session remains active until a signal is received from the Arduino server indicating that
     # the IR beam breaker has been reconnected.
     #
-    # Each session forks a process that records video for the duration of the session. 
+    # Each session forks a process that records video for the duration of the session.
     # This function is also responsible for sending a terminate signal to that forked process.
     # This signal is sent by creating a file called 'KILL' in the current working
-    # directory (Not good, but does the job. I was halfway through implementing IPC with sockets 
+    # directory (Not good, but does the job. I was halfway through implementing IPC with sockets
     # but didn't have time to finish).
     #
     # This function is also responsible for telling the Arduino server how to position the stepper motors and
@@ -282,9 +282,9 @@ class SessionController(object):
     # Each session will also log data about itself.
     #
     # On completion, this session will update the <profile> it was running the session for,
-    # clean up any processes it opened, and save all log data. 
+    # clean up any processes it opened, and save all log data.
     #
-    # TODO: This function is pretty bloated and probably harder to read than it needs to be. Better separation 
+    # TODO: This function is pretty bloated and probably harder to read than it needs to be. Better separation
     # of concerns could be easily achieved by splitting it into a few smaller functions.
     def startSession(self, profile):
 
@@ -315,26 +315,40 @@ class SessionController(object):
         # the camera queue for GETPEL messages and forwards to server if it receives one.
 
         trial_count = 1
-        now = time.time()
+        # now = time.time()
+        raise_moment = datetime.datetime.now()
+        detect_moment = datetime.datetime.now()
 
-        FLAG_pellet = False
+
         path_detection_frame = 'detection_frame.jpg'
         while True:
 
-            if os.path.exists(path_detection_frame):
-                FLAG_pellet = detect(cv2.imread(path_detection_frame))
-                os.remove(path_detection_frame)
+            if (datetime.datetime.now() - detect_moment).seconds > 3 and (datetime.datetime.now() - raise_moment).seconds > 2:
+                print("save img")
+                p.stdin.write(b"detect\n")
+                p.stdin.flush()
+                detect_moment = datetime.datetime.now()
 
-            if (not FLAG_pellet) and (time.time() - now > 7):
-                if profile.dominant_hand == "LEFT":
-                    self.arduino_client.serialInterface.write(b'1')
-                elif profile.dominant_hand == "RIGHT":
-                    self.arduino_client.serialInterface.write(b'2')
-                elif profile.dominant_hand == "BOTH":
-                    self.arduino_client.serialInterface.write(b'4')
+            if os.path.isfile(path_detection_frame) and os.path.getsize(path_detection_frame) > 2*1e3 and (datetime.datetime.now() - detect_moment).seconds > 1:
+                detection_frame = cv2.imread(path_detection_frame)
+                if detection_frame is not None:
+                    # cv2.imshow('1', detection_frame)
+                    # cv2.waitKey(0)
+                    print("Predicting...")
+                    FLAG_pellet = detect(detection_frame)
+                    print("FLAG_pellet:", FLAG_pellet)
+                    os.remove(path_detection_frame)
 
-                now = time.time()
-                trial_count += 1
+                    if (not FLAG_pellet):
+                        if profile.dominant_hand == "LEFT":
+                            self.arduino_client.serialInterface.write(b'1')
+                        elif profile.dominant_hand == "RIGHT":
+                            self.arduino_client.serialInterface.write(b'2')
+                        elif profile.dominant_hand == "BOTH":
+                            self.arduino_client.serialInterface.write(b'4')
+                        raise_moment = datetime.datetime.now()
+                        trial_count += 1
+
 
             # Check if message has arrived from server, if it has, check if it is a TERM message.
             if self.arduino_client.serialInterface.in_waiting > 0:
@@ -364,29 +378,29 @@ def scale_stepper_dist(distance):
     else:
         return str(hex(distance)).replace('0x', '')
 
-def detect(img):
-    assert img.shape == (400, 220, 3), "Shape of detection frame does not match prefix setting."
-
-    img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-    ret,thresh = cv2.threshold(img, 50, 255, cv2.THRESH_BINARY)
+def detect(detection_frame):
+    assert detection_frame.shape == (400, 220, 3), "Shape of detection frame does not match prefix setting."
+    detection_frame = cv2.cvtColor(detection_frame, cv2.COLOR_RGB2GRAY)
+    ret,thresh = cv2.threshold(detection_frame, 50, 255, cv2.THRESH_BINARY)
     im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
     if len(contours) > 0:
         for cnt in contours:
             x, y, w, h = cv2.boundingRect(cnt)
             min_wh = float(min(w, h))
             max_wh = float(max(w, h))
-            if min_wh > max(max_wh * 0.7, 20) and (x + w) < img.shape[1] - 5:
+            if min_wh > max(max_wh * 0.7, 20) and (x + w) < detection_frame.shape[1]:
                 return True
     return False
 
-# Just a wrapper to launch the configuration GUI in its own process. 
+# Just a wrapper to launch the configuration GUI in its own process.
 def launch_gui():
     gui_process = multiprocessing.Process(target=gui.start_gui_loop, args=(PROFILE_SAVE_DIRECTORY,))
     gui_process.start()
     return gui_process
 
 
-# This function initializes all the high level system components, returning a handle to each one. 
+# This function initializes all the high level system components, returning a handle to each one.
 def sys_init():
     profile_list = loadAnimalProfiles(PROFILE_SAVE_DIRECTORY)
     # app_window = Tk()
@@ -396,13 +410,13 @@ def sys_init():
     # if arduino_path
     arduino_client = arduinoClient.client("/dev/ttyUSB0", 9600)
     ser = serial.Serial('/dev/ttyUSB1', 9600)
-    
+
     guiProcess = launch_gui()
     session_controller = SessionController(profile_list, arduino_client)
     return profile_list, arduino_client, session_controller, ser, guiProcess
 
 
-# This function listens to the open port of a serial object. It waits for <x02> 
+# This function listens to the open port of a serial object. It waits for <x02>
 # to indicate the start of an RFID, if then appends to a string until it detects <x03>, indicating the end
 # of the RFID.
 def listen_for_rfid(ser):
@@ -426,7 +440,7 @@ def main():
 
     loadAnimalProfileTrialLimits()
     # These are handles to all the main system components.
-    
+
     profile_list, arduino_client, session_controller, ser, guiProcess = sys_init()
 
     # Entry point of the system. This block waits for an RFID to enter the <SERIAL_INTERFACE_PATH> buffer.

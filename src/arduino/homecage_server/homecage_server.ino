@@ -341,20 +341,24 @@ void test_servo(){
 
 void test_stepper(){
   zeroStepper_both();
-  moveStepper_both(15, 7);
+  moveStepper_both(3, 3);
 }
 
 void loop(){
   boolean DEBUG = false;
   if(DEBUG){
-//    digitalWrite(digitalSwitchPin, HIGH);
+//    digitalWrite(step2_left, LOW);
+//    delay(500);
+    //digitalWrite(step2_left, LOW);
+    //delay(500);
+    //moveStepper_both(3, 3);
     test_stepper();
 //    digitalWrite(digitalSwitchPin, HIGH);
 //    delay(1000);
 //    digitalWrite(digitalSwitchPin, LOW);
 //    delay(1000);
-//    test_servo();
-    while(1){delay(100);}
+    test_servo();
+//while(1){delay(100);}
   }
   else{
     if(listenForStartCommand()){
