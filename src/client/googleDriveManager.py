@@ -131,8 +131,7 @@ def googleDriveManager(interval=20, min_interval=10, cage_id=1, mice_n=4, gdrive
                     if flag:
                         for file_item in os.listdir(logs_root_dir):
                             if file_item.endswith('.csv'):
-                                pass
-                                #uploading_list.append(os.path.join(logs_root_dir, file_item))
+                                uploading_list.append(os.path.join(logs_root_dir, file_item))
 
                 for item in uploading_list:
                     print("\n==========================================================================================================================")
@@ -147,6 +146,8 @@ def googleDriveManager(interval=20, min_interval=10, cage_id=1, mice_n=4, gdrive
                     print("Uploading--%s\n"%os.path.basename(target_dir))
                     while not upload_success:
                         try:
+                            while is_locked(origin_dir):
+                                sleep(1)
                             copyLargeFile(origin_dir, target_dir)
                             sleep(min_interval)
                         except IOError as e:
@@ -171,6 +172,32 @@ def googleDriveManager(interval=20, min_interval=10, cage_id=1, mice_n=4, gdrive
             raise (IOError, "Failed at making directories.")
         print("Current mission finished, Sleeping.....")
         sleep(interval)
+
+def is_locked(filepath):
+    """Checks if a file is locked by opening it in append mode.
+    If no exception thrown, then the file is not locked.
+    """
+    locked = None
+    file_object = None
+    if os.path.exists(filepath):
+        try:
+            print("Trying to open %s." % filepath)
+            buffer_size = 8
+            # Opening file in append mode and read the first 8 characters.
+            file_object = open(filepath, 'a', buffer_size)
+            if file_object:
+                print("%s is not locked." % filepath)
+                locked = False
+        except IOError as message:
+            print("File is locked (unable to open in append mode). %s." % message)
+            locked = True
+        finally:
+            if file_object:
+                file_object.close()
+                print("%s closed." % filepath)
+    else:
+        print("%s not found." % filepath)
+    return locked
 
 if __name__ == '__main__':
     googleDriveManager(300, 5, 3, 5)
