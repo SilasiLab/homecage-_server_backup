@@ -18,7 +18,7 @@ from tkinter.simpledialog import askinteger, askstring
 from tkinter import Tk
 import cv2
 # import pysnooper
-
+from googleDriveManager import check_safe_file
 systemCheck.check_directory_structure()
 # Load all configuration information for running the system.
 # Note: Configuration information for data analysis does not come from here.
@@ -293,7 +293,7 @@ class SessionController(object):
         self.print_session_start_information(profile, startTime)
 
         vidPath = profile.genVideoPath(startTime) + '.avi'
-        tempPath = os.path.join(os.path.dirname(vidPath), 'temp.avi')
+        tempPath = os.path.join(os.path.dirname(vidPath), 'temp_'+ datetime.datetime.now().strftime("%Y%m%d-%H:%M:%S") + '.avi')
 
         print("saved as :"+vidPath)
         if "TEST" in profile.name:
@@ -366,6 +366,8 @@ class SessionController(object):
         for line in p.stdout.readlines():
             print(line)
         # Log session information.
+        while (not check_safe_file(tempPath)):
+            time.sleep(1)
         os.rename(tempPath, vidPath)
         endTime = time.time()
         profile.insertSessionEntry(startTime, endTime, trial_count)

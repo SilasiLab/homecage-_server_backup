@@ -119,7 +119,7 @@ def googleDriveManager(interval=20, min_interval=10, cage_id=1, mice_n=4, gdrive
                     logs_root_dir = os.path.join(local_profileDir, 'MOUSE' + str(i), 'Logs')
                     video_list = os.listdir(video_root_dir)
                     for file_item in video_list:
-                        if file_item.endswith('.avi') and os.path.basename(file_item) != 'temp.avi':
+                        if file_item.endswith('.avi') and 'temp' not in os.path.basename(file_item):
                             full_path = os.path.join(video_root_dir, file_item)
                             if os.path.getsize(full_path) < 18*1e6:
                                 os.remove(full_path)

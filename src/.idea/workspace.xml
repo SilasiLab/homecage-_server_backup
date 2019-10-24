@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5e510e57-314a-4c0d-8e13-b052c2467250" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../AnimalProfiles/TEST_RIGHT/Logs/TEST_RIGHT_session_history.csv" beforeDir="false" afterPath="$PROJECT_DIR$/../AnimalProfiles/TEST_RIGHT/Logs/TEST_RIGHT_session_history.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AnimalProfiles/TEST_RIGHT/TEST_RIGHT_save.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../AnimalProfiles/TEST_RIGHT/TEST_RIGHT_save.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/src.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/src.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arduino/homecage_server/homecage_server.ino" beforeDir="false" afterPath="$PROJECT_DIR$/arduino/homecage_server/homecage_server.ino" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/debug_log/loadAnimalProfiles.logs" beforeDir="false" afterPath="$PROJECT_DIR$/client/debug_log/loadAnimalProfiles.logs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/debug_log/main.logs" beforeDir="false" afterPath="$PROJECT_DIR$/client/debug_log/main.logs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/googleDriveManager.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/googleDriveManager.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -24,40 +20,6 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>print(load)</find>
-      <find>vidp</find>
-      <find>does not exist</find>
-      <find>start</find>
-      <find>flag</find>
-      <find>p</find>
-      <find>time_str</find>
-      <find>COM</find>
-      <find>WIDTH</find>
-      <find>HEIGHT</find>
-      <find>OFFSET_X</find>
-      <find>FPS</find>
-      <find>EXPOSURE</find>
-      <find>animal_profile_directory</find>
-      <find>profile_state</find>
-      <find>loadAnimalProfiles</find>
-      <find>find_profile_state_index</find>
-      <find>profileStates</find>
-      <find>save_animal_profile</find>
-      <find>profileSaveFilePaths</find>
-      <find>print</find>
-      <find>load_animal_profiles</find>
-      <find>dists1</find>
-      <find>fb</find>
-      <find>session_history</find>
-      <find>profile_save_directory</find>
-      <find>left_right_box_list</find>
-      <find>PROFILE_SAVE_DIRECTORY</find>
-      <find>log_save_directory</find>
-      <find>AnimalProfile</find>
-    </findStrings>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
@@ -65,7 +27,7 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$/camera_test" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
