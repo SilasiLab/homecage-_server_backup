@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="135386be-7b78-4378-8330-b06deeaf0b4c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="135386be-7b78-4378-8330-b06deeaf0b4c" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,38 +10,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/driver_for_a_better_camera.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/googleDriveManager.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="150" column="26" lean-forward="true" selection-end-line="242" />
+            <state relative-caret-position="-34">
+              <caret line="94" lean-forward="true" selection-start-line="94" selection-end-line="94" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="170" column="58" selection-end-line="535" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/gui.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1870">
-              <caret line="112" column="43" selection-start-line="112" selection-start-column="43" selection-end-line="112" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/arduinoClient.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+            <state relative-caret-position="-1292">
+              <caret line="20" selection-start-line="20" selection-end-line="20" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -56,6 +36,8 @@
       <find>startSession</find>
       <find>FPS</find>
       <find>fps</find>
+      <find>tempPa</find>
+      <find>tempPath</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -68,14 +50,16 @@
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/driver_for_a_better_camera.py" />
         <option value="$PROJECT_DIR$/systemCheck.py" />
+        <option value="$USER_HOME$/HomeCageSinglePellet_server_2/src/client/googleDriveManager.py" />
+        <option value="$USER_HOME$/HomeCageSinglePellet_server_2/src/client/main.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-54" />
-    <option name="y" value="133" />
+    <option name="x" value="-127" />
+    <option name="y" value="231" />
     <option name="width" value="1300" />
-    <option name="height" value="991" />
+    <option name="height" value="962" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -166,8 +150,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-54" y="133" width="1300" height="991" extended-state="0" />
-    <editor active="true" />
+    <frame x="-127" y="231" width="1300" height="962" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" internal_type="SLIDING" order="0" type="SLIDING" weight="0.22567114" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -206,6 +189,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/driver_for_a_better_camera.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="150" column="26" selection-end-line="242" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/gui.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1870">
@@ -220,17 +210,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.py">
+    <entry file="file://$USER_HOME$/HomeCageSinglePellet_server_1/src/client/googleDriveManager.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="170" column="58" selection-end-line="535" />
+        <state relative-caret-position="-1275">
+          <caret line="3" column="51" lean-forward="true" selection-start-line="3" selection-start-column="51" selection-end-line="3" selection-end-column="51" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/driver_for_a_better_camera.py">
+    <entry file="file://$USER_HOME$/HomeCageSinglePellet_server_1/src/client/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="150" column="26" lean-forward="true" selection-end-line="242" />
+        <state relative-caret-position="-1066">
+          <caret line="304" column="14" selection-start-line="304" selection-start-column="8" selection-end-line="304" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/HomeCageSinglePellet_server_2/src/client/googleDriveManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1572">
+          <caret line="200" selection-start-line="200" selection-end-line="200" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/HomeCageSinglePellet_server_2/src/client/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
+          <folding>
+            <element signature="e#153#163#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/googleDriveManager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-34">
+          <caret line="94" lean-forward="true" selection-start-line="94" selection-end-line="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1292">
+          <caret line="20" selection-start-line="20" selection-end-line="20" selection-end-column="40" />
         </state>
       </provider>
     </entry>

@@ -293,7 +293,7 @@ class SessionController(object):
         self.print_session_start_information(profile, startTime)
 
         vidPath = profile.genVideoPath(startTime) + '.avi'
-        tempPath = os.path.join(os.path.dirname(vidPath), 'temp_'+ datetime.datetime.now().strftime("%Y%m%d-%H:%M:%S") + '.avi')
+        tempPath = os.path.join(os.path.dirname(vidPath), 'temp_'+ datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + '.avi')
 
         print("saved as :"+vidPath)
         if "TEST" in profile.name:
@@ -366,7 +366,7 @@ class SessionController(object):
         for line in p.stdout.readlines():
             print(line)
         # Log session information.
-        while (not is_locked(tempPath)):
+        while is_locked(tempPath):
             time.sleep(1)
         os.rename(tempPath, vidPath)
         endTime = time.time()
