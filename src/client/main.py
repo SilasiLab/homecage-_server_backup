@@ -18,7 +18,7 @@ from tkinter.simpledialog import askinteger, askstring
 from tkinter import Tk
 import cv2
 # import pysnooper
-from googleDriveManager import check_safe_file
+from googleDriveManager import is_locked
 systemCheck.check_directory_structure()
 # Load all configuration information for running the system.
 # Note: Configuration information for data analysis does not come from here.
@@ -366,7 +366,7 @@ class SessionController(object):
         for line in p.stdout.readlines():
             print(line)
         # Log session information.
-        while (not check_safe_file(tempPath)):
+        while (not is_locked(tempPath)):
             time.sleep(1)
         os.rename(tempPath, vidPath)
         endTime = time.time()
