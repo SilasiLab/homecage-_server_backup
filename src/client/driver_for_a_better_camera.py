@@ -22,6 +22,8 @@ import os
 
 DETECT_FLAG = False
 
+DETECT_FLAG = False
+
 class FPS_camera:
     def __init__(self):
         self._start = None
@@ -62,6 +64,7 @@ class WebcamVideoStream:
             print(self.stream.isOpened())
             self.width = width
             self.height = height
+<<<<<<< HEAD
             ret1 = self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
             ret2 = self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, 360)
             # ret1 = self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
@@ -69,6 +72,12 @@ class WebcamVideoStream:
             ret3 = self.stream.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
             ret4 = self.stream.set(cv2.CAP_PROP_EXPOSURE, -3)
             # ret4 = self.stream.set(cv2.CAP_PROP_EXPOSURE, -11)
+=======
+            ret1 = self.stream.set(cv2.CAP_PROP_FRAME_WIDTH, self.width)
+            ret2 = self.stream.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
+            ret3 = self.stream.set(cv2.CAP_PROP_AUTO_EXPOSURE, 0.25)
+            ret4 = self.stream.set(cv2.CAP_PROP_EXPOSURE, -11)
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
         # If not go next line
         else:
             self.stream = cv2.VideoCapture(src)
@@ -160,9 +169,13 @@ class Recoder():
     def recording(self):
         self.FPS = self.FPS.start()
         time_str = str(time.time())
+<<<<<<< HEAD
         start_time = datetime.datetime.now()
         global DETECT_FLAG
 
+=======
+        global DETECT_FLAG
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
         while True:
             time_iter_start = datetime.datetime.now()
             if self.stopped:
@@ -170,11 +183,18 @@ class Recoder():
 
             frame = self.vs.read()
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+<<<<<<< HEAD
             if not self.show:
                 self.writer.write(gray)
             if DETECT_FLAG:
                 cv2.imwrite("detection_frame.jpg", gray)
                 DETECT_FLAG = False
+=======
+            self.writer.write(gray)
+            if DETECT_FLAG:
+                DETECT_FLAG = False
+                cv2.imwrite("detection_frame.jpg", gray[160: 560, 200: 420])
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
             self.FPS.update()
 
             if self.show:
@@ -247,6 +267,7 @@ if __name__ == '__main__':
         parser = argparse.ArgumentParser()
         parser.add_argument('--c', help='an integer for the camer index', dest='camera_index')
         parser.add_argument('--p', help='a string', dest='video_path')
+<<<<<<< HEAD
         parser.add_argument('--t', help='test', dest='test', default='False')
         args = parser.parse_args()
         camera_index = args.camera_index
@@ -257,6 +278,12 @@ if __name__ == '__main__':
         else:
             record_main(int(camera_index), video_path, show=False)
 
+=======
+        args = parser.parse_args()
+        camera_index = args.camera_index
+        video_path = args.video_path
+        record_main(int(camera_index), video_path, show=False)
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
 
     else:
         record_main(0, '1.avi', show=True)

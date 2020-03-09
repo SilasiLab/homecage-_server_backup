@@ -14,10 +14,18 @@ from subprocess import PIPE, Popen
 import os
 import datetime
 from driver_for_a_better_camera import *
+<<<<<<< HEAD
 from googleDriveManager import is_locked
 import numpy as np
 from detector import Detector
 D = Detector("model/model.h5")
+=======
+from tkinter.simpledialog import askinteger, askstring
+from tkinter import Tk
+import cv2
+# import pysnooper
+from googleDriveManager import is_locked
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
 systemCheck.check_directory_structure()
 # Load all configuration information for running the system.
 # Note: Configuration information for data analysis does not come from here.
@@ -306,15 +314,23 @@ class SessionController(object):
         successful_count = 0
         vidPath = profile.genVideoPath(startTime) + '.avi'
         tempPath = os.path.join(os.path.dirname(vidPath), 'temp_'+ datetime.datetime.now().strftime("%Y%m%d-%H%M%S") + '.avi')
+<<<<<<< HEAD
 
+=======
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
 
         print("saved as :"+vidPath)
         if "TEST" in profile.name:
             print("Its testing")
             p = Popen(["python", "driver_for_a_better_camera.py", "--c", str(0), "--p", tempPath, "--t", "True"], stdin=PIPE, stdout=PIPE)
         else:
+<<<<<<< HEAD
             p = Popen(["python", "driver_for_a_better_camera.py", "--c", str(0), "--p", tempPath, "--t", "False"], stdin=PIPE, stdout=PIPE)
         # Tell server to move stepper to appropriate position for current profile
+=======
+            p = Popen(["python", "driver_for_a_better_camera.py", "--c", str(self.camera_index), "--p", tempPath], stdin=PIPE, stdout=PIPE)
+        # Tell 5server to move stepper to appropriate position for current profile
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
         self.arduino_client.serialInterface.write(b'3')
 
         stepperMsg1 = scale_stepper_dist(profile.difficulty_dist_mm1)
@@ -328,6 +344,7 @@ class SessionController(object):
         # the camera queue for GETPEL messages and forwards to server if it receives one.
 
         trial_count = 1
+<<<<<<< HEAD
         raise_moment = datetime.datetime.now()
         display_time_stamp_list = []
         SEED_FLAG = False
@@ -392,6 +409,42 @@ class SessionController(object):
                     trial_count += 1
                     display_time_stamp_list.append(raise_moment)
                     time.sleep(1)
+=======
+        # now = time.time()
+        raise_moment = datetime.datetime.now()
+        detect_moment = datetime.datetime.now()
+
+
+        path_detection_frame = 'detection_frame.jpg'
+        while True:
+
+            if (datetime.datetime.now() - detect_moment).seconds > 3 and (datetime.datetime.now() - raise_moment).seconds > 2:
+                print("save img")
+                p.stdin.write(b"detect\n")
+                p.stdin.flush()
+                detect_moment = datetime.datetime.now()
+
+            if os.path.isfile(path_detection_frame) and os.path.getsize(path_detection_frame) > 2*1e3 and (datetime.datetime.now() - detect_moment).seconds > 1:
+                detection_frame = cv2.imread(path_detection_frame)
+                if detection_frame is not None:
+                    # cv2.imshow('1', detection_frame)
+                    # cv2.waitKey(0)
+                    print("Predicting...")
+                    FLAG_pellet = detect(detection_frame)
+                    print("FLAG_pellet:", FLAG_pellet)
+                    os.remove(path_detection_frame)
+
+                    if (not FLAG_pellet):
+                        if profile.dominant_hand == "LEFT":
+                            self.arduino_client.serialInterface.write(b'1')
+                        elif profile.dominant_hand == "RIGHT":
+                            self.arduino_client.serialInterface.write(b'2')
+                        elif profile.dominant_hand == "BOTH":
+                            self.arduino_client.serialInterface.write(b'4')
+                        raise_moment = datetime.datetime.now()
+                        trial_count += 1
+
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
 
             # Check if message has arrived from server, if it has, check if it is a TERM message.
             if self.arduino_client.serialInterface.in_waiting > 0:
@@ -411,11 +464,15 @@ class SessionController(object):
         # Log session information.
         while is_locked(tempPath):
             time.sleep(1)
+<<<<<<< HEAD
 
         if trial_count == 0:
             os.remove(tempPath)
         else:
             os.rename(tempPath, vidPath)
+=======
+        os.rename(tempPath, vidPath)
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
         endTime = time.time()
         profile.insertSessionEntry(startTime, endTime, trial_count, successful_count)
         profile.insertDisplay(display_time_stamp_list)
@@ -427,9 +484,28 @@ def scale_stepper_dist(distance):
         return str(distance)
     elif distance <= 15:
         return str(hex(distance)).replace('0x', '')
+<<<<<<< HEAD
     else:
         simple_dict = {16: 'g', 17: 'h', 18: 'i', 19: 'j', 20: 'k'}
         return simple_dict[distance]
+=======
+
+def detect(detection_frame):
+    assert detection_frame.shape == (400, 220, 3), "Shape of detection frame does not match prefix setting."
+    detection_frame = cv2.cvtColor(detection_frame, cv2.COLOR_RGB2GRAY)
+    ret,thresh = cv2.threshold(detection_frame, 50, 255, cv2.THRESH_BINARY)
+    im2, contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    if len(contours) > 0:
+        for cnt in contours:
+            x, y, w, h = cv2.boundingRect(cnt)
+            min_wh = float(min(w, h))
+            max_wh = float(max(w, h))
+            if min_wh > max(max_wh * 0.7, 20) and (x + w) < detection_frame.shape[1]:
+                return True
+    return False
+
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
 # Just a wrapper to launch the configuration GUI in its own process.
 def launch_gui():
     gui_process = multiprocessing.Process(target=gui.start_gui_loop, args=(PROFILE_SAVE_DIRECTORY,))
@@ -441,8 +517,18 @@ def launch_gui():
 def sys_init():
     # print(PROFILE_SAVE_DIRECTORY)
     profile_list = loadAnimalProfiles(PROFILE_SAVE_DIRECTORY)
+<<<<<<< HEAD
     arduino_client = arduinoClient.client("COM9", 9600)
     ser = serial.Serial('COM4', 9600)
+=======
+    # app_window = Tk()
+    # saved_arduino_path = "/dev/ttyUSB0"
+    #
+    # arduino_path = askstring("Arduino Port", "Please input arduino path: (Default is: %s)"%saved_arduino_path)
+    # if arduino_path
+    arduino_client = arduinoClient.client("/dev/ttyUSB0", 9600)
+    ser = serial.Serial('/dev/ttyUSB1', 9600)
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
 
     guiProcess = launch_gui()
     session_controller = SessionController(profile_list, arduino_client)

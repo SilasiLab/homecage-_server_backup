@@ -5,5 +5,10 @@ TEST_RIGHT
 0
 7
 BOTH
+<<<<<<< HEAD
 1093
 D:\HomeCageSinglePellet_server_10\AnimalProfiles\TEST_RIGHT\
+=======
+500
+/home/silasi/HomeCageSinglePellet_server/AnimalProfiles/TEST_RIGHT/
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9

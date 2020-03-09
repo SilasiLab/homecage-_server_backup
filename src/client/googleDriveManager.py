@@ -98,7 +98,10 @@ def googleDriveManager(interval=20, min_interval=10, cage_id=1, mice_n=4, gdrive
     for i in range(1, mice_n + 1):
         check_dir_list.append(os.path.join(gdrive_profilesDir, "MOUSE" + str(i)))
         check_dir_list.append(os.path.join(gdrive_profilesDir, "MOUSE" + str(i), "Videos"))
+<<<<<<< HEAD
         check_dir_list.append(os.path.join(gdrive_profilesDir, "MOUSE" + str(i), "Logs"))
+=======
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
 
     for dir_item in check_dir_list:
         if not os.path.exists(dir_item):
@@ -122,10 +125,17 @@ def googleDriveManager(interval=20, min_interval=10, cage_id=1, mice_n=4, gdrive
                     for file_item in video_list:
                         if file_item.endswith('.avi') and 'temp' not in os.path.basename(file_item):
                             full_path = os.path.join(video_root_dir, file_item)
+<<<<<<< HEAD
                             # if os.path.getsize(full_path) < 18*1e6:
                             #     os.remove(full_path)
                             #     print("\n Small size File deleted: %s" % os.path.basename(full_path))
                             if check_safe_file(full_path):
+=======
+                            if os.path.getsize(full_path) < 18*1e6:
+                                os.remove(full_path)
+                                print("\n Small size File deleted: %s" % os.path.basename(full_path))
+                            elif check_safe_file(full_path):
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
                                 uploading_list.append(full_path)
                                 n_video += 1
                                 flag = True
@@ -148,9 +158,14 @@ def googleDriveManager(interval=20, min_interval=10, cage_id=1, mice_n=4, gdrive
                     print("Uploading--%s\n"%os.path.basename(target_dir))
                     while not upload_success:
                         try:
+<<<<<<< HEAD
                             if origin_dir.endswith('.csv') or origin_dir.endswith('.txt'):
                                 while is_locked(origin_dir):
                                     sleep(1)
+=======
+                            while is_locked(origin_dir):
+                                sleep(1)
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
                             copyLargeFile(origin_dir, target_dir)
                             sleep(min_interval)
                         except IOError as e:
@@ -170,7 +185,11 @@ def googleDriveManager(interval=20, min_interval=10, cage_id=1, mice_n=4, gdrive
                                 if origin_dir.endswith('.avi'):
                                     os.remove(origin_dir)
                                     print("Original file:%s deleted." % origin_dir)
+<<<<<<< HEAD
                                 uploading_list.remove(item)
+=======
+                                    uploading_list.remove(item)
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
         except:
             raise (IOError, "Failed at making directories.")
         print("Current mission finished, Sleeping.....")
@@ -200,6 +219,7 @@ def is_locked(filepath):
                 print("%s closed." % filepath)
     else:
         print("%s not found." % filepath)
+<<<<<<< HEAD
 
     return locked
 
@@ -211,3 +231,9 @@ if __name__ == '__main__':
     else:
         cage_index = 1
     googleDriveManager(interval=300, min_interval=5, cage_id=cage_index, mice_n=5)
+=======
+    return locked
+
+if __name__ == '__main__':
+    googleDriveManager(300, 5, 3, 5)
+>>>>>>> 935bb6b1156029c83aa5959aaa8e4a5c65496ea9
